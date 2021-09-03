@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import {ControlItem} from '@app/models/frontend'
 import {regex, regexErrors} from '@app/shared'
 
 @Component({
@@ -12,8 +13,18 @@ export class SharedComponent implements OnInit {
   isInline: boolean
   regexErrors = regexErrors
 
+  items: ControlItem[]
+
   constructor(private fb: FormBuilder) {
     this.isInline = true
+
+    this.items = [
+      {label: 'First', value: 1},
+      {label: 'Second', value: 2},
+      {label: 'Third', value: 3},
+      {label: 'Fourth', value: 4},
+      {label: 'Fifth', value: 5},
+    ]
   }
 
   ngOnInit(): void {
@@ -33,6 +44,13 @@ export class SharedComponent implements OnInit {
         null,
         {
           updateOn: 'blur',
+          validators: [Validators.required],
+        },
+      ],
+      select: [
+        null,
+        {
+          updateOn: 'change',
           validators: [Validators.required],
         },
       ],
