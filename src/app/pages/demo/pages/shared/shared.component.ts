@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {ControlItem} from '@app/models/frontend'
-import {regex, regexErrors} from '@app/shared'
+import {NotificationService} from '@app/services'
+import {markFormGroupTouched, regex, regexErrors} from '@app/shared'
 
 @Component({
   selector: 'app-shared',
@@ -15,7 +16,12 @@ export class SharedComponent implements OnInit {
 
   items: ControlItem[]
 
-  constructor(private fb: FormBuilder) {
+  showSpinner = false
+
+  constructor(
+    private fb: FormBuilder,
+    private notification: NotificationService
+  ) {
     this.isInline = true
 
     this.items = [
@@ -36,7 +42,7 @@ export class SharedComponent implements OnInit {
           validators: [
             Validators.required,
             Validators.minLength(3),
-            Validators.pattern(regex.email),
+            Validators.pattern(regex.numbers),
           ],
         },
       ],
@@ -94,13 +100,49 @@ export class SharedComponent implements OnInit {
 
   onSubmit() {
     console.log('Submit!')
+
+    if (!this.form.valid) {
+      markFormGroupTouched(this.form)
+    }
   }
 
   onPatchValue() {
-    this.form.patchValue({input: 'test'})
+    this.form.patchValue({
+      input: 123,
+      password: 'qwerty',
+      autocomplete: 1,
+      select: 2,
+      checkboxes: [3],
+      radios: 4,
+      date: new Date().getTime(),
+      dateRange: {
+        from: new Date(2019, 5, 10).getTime(),
+        to: new Date(2019, 5, 25).getTime(),
+      },
+    })
   }
 
   onToggleInline() {
     this.isInline = !this.isInline
+  }
+
+  onToggleDisabke() {
+    if (this.form.enabled) {
+      this.form.disable()
+    } else {
+      this.form.enable()
+    }
+  }
+
+  onToggleSpinner() {
+    this.showSpinner = !this.showSpinner
+  }
+
+  onError(): void {
+    this.notification.error('Oops! something is wrong')
+  }
+
+  onSuccess(): void {
+    this.notification.success('Everything is fine!')
   }
 }
