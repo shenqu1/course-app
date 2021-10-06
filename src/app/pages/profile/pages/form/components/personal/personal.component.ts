@@ -9,12 +9,15 @@ import {
   ChangeDetectorRef,
 } from '@angular/core'
 import {FormGroup, FormBuilder, Validators} from '@angular/forms'
+
 import {Subject} from 'rxjs'
 import {takeUntil} from 'rxjs/operators'
+
 import {regex, regexErrors} from '@app/shared/utils'
 import {markFormGroupTouched} from '@app/shared/utils/form'
 
 import {Dictionaries} from '@app/store/dictionaries'
+
 import {StepperService} from '../stepper/services'
 
 export interface PersonalForm {
@@ -41,9 +44,9 @@ export class PersonalComponent implements OnInit, OnDestroy {
   private destroy = new Subject<any>()
 
   constructor(
-    private stepper: StepperService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private stepper: StepperService
   ) {}
 
   ngOnInit(): void {
@@ -81,12 +84,12 @@ export class PersonalComponent implements OnInit, OnDestroy {
       } else {
         this.changed.emit(this.form.value)
       }
-      //type === 'next'
+
       this.stepper[type].next(this.form.valid)
     })
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy.next()
     this.destroy.complete()
   }

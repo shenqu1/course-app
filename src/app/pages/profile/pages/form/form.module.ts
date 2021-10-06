@@ -22,6 +22,7 @@ import {ButtonModule, UserPhotoModule} from '@app/shared'
 import {EmployeeComponent} from './components/professional/roles/employee/employee.component'
 import {RecruiterComponent} from './components/professional/roles/recruiter/recruiter.component'
 import {ExperiencesComponent} from './components/professional/roles/employee/experiences/experiences.component'
+import {MapperService} from './services'
 
 @NgModule({
   declarations: [
@@ -49,5 +50,6 @@ import {ExperiencesComponent} from './components/professional/roles/employee/exp
     ReactiveFormsModule,
     UserPhotoModule,
   ],
+  providers: [MapperService],
 })
 export class FormModule {}

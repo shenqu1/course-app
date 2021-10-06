@@ -1,6 +1,6 @@
 <div class="app-page">
   <div class="app-page__header">
-    <h1>New Profile</h1>
+    <h1>{{ title }}</h1>
   </div>
 
   <div class="app-page__content">
@@ -9,14 +9,19 @@
         <app-personal
           *ngSwitchCase="'personal'"
           [dictionaries]="dictionaries$ | async"
-          (changed)="onChangePersonal($event)"
+          (changed)="onChangedPersonal($event)"
+          [value]="personal$ | async"
         ></app-personal>
+
         <app-professional
           *ngSwitchCase="'professional'"
           [dictionaries]="dictionaries$ | async"
-          (changed)="onChangeProfessoonal($event)"
+          (changed)="onChangedProfessional($event)"
+          [value]="professional$ | async"
         ></app-professional>
       </ng-container>
     </app-stepper>
   </div>
+
+  <app-spinner *ngIf="loading$ | async"></app-spinner>
 </div>
