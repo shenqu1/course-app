@@ -19,7 +19,7 @@
     </ng-container>
   </div>
 
-  <div class="app-page__footer">
+  <div class="app-page__footer" *ngIf="isOwnProfile$ | async">
     <a class="app-button" routerLink="/profile/edit">Edit</a>
   </div>
 </div>
